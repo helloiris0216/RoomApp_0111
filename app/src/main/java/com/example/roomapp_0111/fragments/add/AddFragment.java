@@ -2,6 +2,7 @@ package com.example.roomapp_0111.fragments.add;
 
 import android.os.Bundle;
 import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.example.roomapp_0111.R;
 import com.example.roomapp_0111.data.MyData;
 import com.example.roomapp_0111.data.UserDatabase;
+import com.example.roomapp_0111.fragments.list.MyAdapter;
 
 import java.util.List;
 
@@ -30,6 +32,7 @@ public class AddFragment extends Fragment {
 
     private EditText ed_add_firstName, ed_add_lastName, ed_add_age;
     private Button btn_add;
+    MyAdapter myAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -74,6 +77,7 @@ public class AddFragment extends Fragment {
         // 將資料新增到資料庫: 判斷使用者是否有輸入
         if (firstName.isEmpty() || lastName.isEmpty() || age.equals("")){
             Toast.makeText(getContext(), "Please fill out the fields", Toast.LENGTH_SHORT).show();
+
         } else {
             // 將資料新增到資料庫: Room 一定要在背景執行緒進行動作，因為撈資料是很耗時的事情
             new Thread(){
@@ -83,13 +87,27 @@ public class AddFragment extends Fragment {
                     MyData myData = new MyData(firstName, lastName, age);
                     UserDatabase.getInstance(getContext()).getDataDao().insertData(myData);
 
-                    // 將資料新增到資料庫: 按下 Add btn 後，即可返回到上一頁
-                    Navigation.findNavController(view).popBackStack();
-                }
+
+                    // 將資料新增到資料庫: 按下 Add btn 後，即可返回到 listFragment
+                    Navigation.findNavController(view).navigate(R.id.listFragment);
+
+                    // 在背景執行緒中更新 ui 元件
+                    getActivity().runOnUiThread(new Runnable(){
+                        @Override
+                        public void run() {
+                            //myAdapter.refreshView();
+                            ed_add_firstName.setText("");
+                            ed_add_lastName.setText("");
+                            ed_add_age.setText("");
+                        }
+                    });
+
+                } //end run()
             }.start();
 
         }
-    } //end insetDataToDB
+    } //end insetDataToDB()
+
 
 
     //返回鍵設定: 6.設定返回鍵功能
@@ -102,6 +120,7 @@ public class AddFragment extends Fragment {
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     //返回鍵設定: 7.在生命週期 onStop 時，將返回鍵關閉
     @Override

@@ -7,6 +7,8 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Dao
@@ -20,7 +22,7 @@ public interface DataDao {
 
     /**撈取全部資料*/
     @Query("SELECT * FROM MyTable ORDER BY id ASC")
-    List<MyData> readAllData();
+    List<MyData> displayAll();
 
     /**簡易更新資料的方法*/
     @Update
