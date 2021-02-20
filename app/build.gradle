@@ -53,5 +53,6 @@ dependencies {
     annotationProcessor "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
 
     implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'it.xabaras.android:recyclerview-swipedecorator:1.2.2'
 
 }

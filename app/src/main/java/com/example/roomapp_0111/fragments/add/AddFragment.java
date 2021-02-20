@@ -65,7 +65,7 @@ public class AddFragment extends Fragment {
         return view;
     }
 
-    // 將資料新增到資料庫: 2.設定新增資料的功能
+    // 將資料新增到資料庫: 01.抓取使用者輸入
     private void insertDataToDB() {
         final String firstName = ed_add_firstName.getText().toString();
         final String lastName = ed_add_lastName.getText().toString();
@@ -79,7 +79,7 @@ public class AddFragment extends Fragment {
             Toast.makeText(getContext(), "Please fill out the fields", Toast.LENGTH_SHORT).show();
 
         } else {
-            // 將資料新增到資料庫: Room 一定要在背景執行緒進行動作，因為撈資料是很耗時的事情
+            // 將資料新增到資料庫: 02.Room 一定要在背景執行緒進行動作，因為撈資料是很耗時的事情
             new Thread(){
                 @Override
                 public void run() {

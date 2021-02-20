@@ -18,17 +18,21 @@ import java.util.List;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
     private List<MyData> myData;
-    private OnItemClickListener onItemClickListener;
     private Activity activity;
+
+    /**實現RecyclerView點選事件: 02.外部宣告我們的定義的介面 */
+    private OnItemClickListener myItemClickListener;
+
 
     public MyAdapter(Activity activity, List<MyData> myData) {
         this.activity = activity;
         this.myData = myData;
     }
 
-    /**建立對外接口*/
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener){
-        this.onItemClickListener = onItemClickListener;
+
+    /**實現RecyclerView點選事件: 01.建立對外接口*/
+    public interface OnItemClickListener {
+        void onItemClick(MyData myData);
     }
 
     /**更新資料*/
@@ -42,6 +46,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             });
         }).start();
     }
+
     /**刪除資料*/
     public void deleteData(int position){
         new Thread(()->{
@@ -58,6 +63,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public class ViewHolder extends RecyclerView.ViewHolder {
         // 宣告元件
         private final TextView tv_id, tv_firstName, tv_lastName, tv_age;
+        View view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -66,6 +72,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
             tv_firstName = (TextView) itemView.findViewById(R.id.textView_firstName);
             tv_age = (TextView) itemView.findViewById(R.id.tv_age);
 
+            view = itemView;
         }
     } //end ViewHolder()
 
@@ -77,6 +84,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         View view = LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.item_layout, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
+
         return viewHolder;
     }
 
@@ -90,13 +98,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
         holder.tv_firstName.setText(myData.get(position).getFirstName());
         holder.tv_age.setText(myData.get(position).getAge());
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onItemClickListener.onItemClick(myData.get(position));
-//            }
-//        });
+        /**實現RecyclerView點選事件: 03.為ItemView新增點選事件*/
+        holder.view.setOnClickListener(v -> myItemClickListener.onItemClick(myData.get(position)));
 
+    }
+
+    /**實現RecyclerView點選事件: 04.定義方法，給外部呼叫*/
+    /**item的點選事件處理，這裡採用了介面回撥的方法實現*/
+    /**這裡採用了介面回撥的方法實現，將該方法暴露給外部，便於外部呼叫*/
+    public void setMyItemClickListener(OnItemClickListener myItemClickListener){
+        this.myItemClickListener = myItemClickListener;
     }
 
 
@@ -105,11 +116,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     public int getItemCount() {
         Log.d("myData_size", "getItemCount: "+myData.size());
         return myData.size();
-    }
-
-    /**建立對外接口*/
-    public interface OnItemClickListener {
-        void onItemClick(MyData myData);
     }
 
 
