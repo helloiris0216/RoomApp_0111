@@ -62,15 +62,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     // 建立ViewHolder，在這個內部類別內控制元件
     public class ViewHolder extends RecyclerView.ViewHolder {
         // 宣告元件
-        private final TextView tv_id, tv_firstName, tv_lastName, tv_age;
+        private final TextView tv_name, tv_birthday, tv_age, tv_constellation;
         View view;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            tv_id = (TextView) itemView.findViewById(R.id.textView_id);
-            tv_lastName = (TextView) itemView.findViewById(R.id.textView_lastName);
-            tv_firstName = (TextView) itemView.findViewById(R.id.textView_firstName);
+
+            tv_name = (TextView) itemView.findViewById(R.id.tv_name);
+            tv_birthday = (TextView) itemView.findViewById(R.id.tv_birthday);
             tv_age = (TextView) itemView.findViewById(R.id.tv_age);
+            tv_constellation = (TextView) itemView.findViewById(R.id.tv_constellation);
 
             view = itemView;
         }
@@ -93,10 +94,69 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(@NonNull MyAdapter.ViewHolder holder, int position) {
 
-        holder.tv_id.setText(Integer.toString(myData.get(position).getId()));
-        holder.tv_lastName.setText(myData.get(position).getLastName());
-        holder.tv_firstName.setText(myData.get(position).getFirstName());
+        holder.tv_name.setText(myData.get(position).getName());
+        holder.tv_birthday.setText(myData.get(position).getBirthday());
         holder.tv_age.setText(myData.get(position).getAge());
+
+        String bth_m = myData.get(position).getBirthday();
+        String month = bth_m.substring(8, 10);
+        int day = Integer.parseInt(bth_m.substring(11));
+        Log.d("constellation", "string_len:"+bth_m.length());
+        Log.d("constellation", "month:"+month);
+        Log.d("constellation", "day:"+day);
+        String constellation = "";
+        switch (month){
+            case "01":
+                constellation = day<21?"摩羯座":"水瓶座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "02":
+                constellation = day<20? "水瓶座":"雙魚座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "03":
+                constellation = day<21?"雙魚座":"白羊座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "04":
+                constellation = day<21?"白羊座":"金牛座";
+                holder.tv_constellation.setText("牡羊座");
+                break;
+            case "05":
+                constellation = day<22?"金牛座":"雙子座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "06":
+                constellation = day<22?"雙子座":"巨蟹座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "07":
+                constellation = day<23?"巨蟹座":"獅子座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "08":
+                constellation = day<24?"獅子座":"處女座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "09":
+                constellation = day<24?"處女座":"天秤座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "10":
+                constellation = day<24?"天秤座":"天蠍座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "11":
+                constellation = day<23?"天蠍座":"射手座";
+                holder.tv_constellation.setText(constellation);
+                break;
+            case "12":
+                constellation = day<22?"射手座":"摩羯座";
+                holder.tv_constellation.setText(constellation);
+                break;
+        }
+
+
 
         /**實現RecyclerView點選事件: 03.為ItemView新增點選事件*/
         holder.view.setOnClickListener(v -> myItemClickListener.onItemClick(myData.get(position)));

@@ -9,21 +9,21 @@ public class MyData {
 
         @PrimaryKey(autoGenerate = true)    //設置是否使ID自動累加
         private int id;
-        private String firstName;
-        private String lastName;
+        private String name;
+        private String birthday;
         private String age;
 
-        public MyData(String firstName, String lastName, String age) {
-                this.firstName = firstName;
-                this.lastName = lastName;
+        public MyData(String name, String birthday, String age) {
+                this.name = name;
+                this.birthday = birthday;
                 this.age = age;
         }
 
         @Ignore
-        public MyData(int id, String firstName, String lastName, String age) {
+        public MyData(int id, String name, String birthday, String age) {
                 this.id = id;
-                this.firstName = firstName;
-                this.lastName = lastName;
+                this.name = name;
+                this.birthday = birthday;
                 this.age = age;
         }
 
@@ -35,20 +35,20 @@ public class MyData {
                 this.id = id;
         }
 
-        public String getFirstName() {
-                return firstName;
+        public String getName() {
+                return name;
         }
 
-        public void setFirstName(String firstName) {
-                this.firstName = firstName;
+        public void setName(String name) {
+                this.name = name;
         }
 
-        public String getLastName() {
-                return lastName;
+        public String getBirthday() {
+                return birthday;
         }
 
-        public void setLastName(String lastName) {
-                this.lastName = lastName;
+        public void setBirthday(String birthday) {
+                this.birthday = birthday;
         }
 
         public String getAge() {
