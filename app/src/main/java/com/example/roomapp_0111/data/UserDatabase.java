@@ -6,6 +6,8 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
+
+// entity:表示資料庫內的表
 @Database(entities = {MyData.class}, version = 1, exportSchema = true)
 public abstract class UserDatabase extends RoomDatabase {
 

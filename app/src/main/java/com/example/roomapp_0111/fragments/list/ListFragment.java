@@ -116,19 +116,19 @@ public class ListFragment extends Fragment {
 
                     }
                 });
-
             }
         }.start();
 
         setRecyclerFunction(recyclerView_listF);//設置RecyclerView左滑刪除
-        setBth();
+
+        setBth(); //設定生日
 
         return view;
     } //end onCreateView()
 
 
 
-    //TODO:利用對話框進行資料的修改
+    //TODO:資料的修改
     private void Dialog_modify(MyData myData, View view){
         /**01.建立對話框*/
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
@@ -235,6 +235,7 @@ public class ListFragment extends Fragment {
             }
         };
     } //end setBth()
+
 
 
 

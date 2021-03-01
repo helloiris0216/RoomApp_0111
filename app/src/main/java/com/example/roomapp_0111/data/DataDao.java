@@ -24,7 +24,7 @@ public interface DataDao {
     @Query("SELECT * FROM MyTable ORDER BY id ASC")
     List<MyData> displayAll();
 
-    /**簡易更新資料的方法*/
+    /**簡易修改資料的方法*/
     @Update
     void updateData(MyData myData);
 

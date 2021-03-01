@@ -188,7 +188,7 @@ public class AddFragment extends Fragment {
 
                 // 取得輸入的生日
                 int bth_y = calendar.get(Calendar.YEAR);
-                int bth_m = calendar.get(Calendar.MONTH);
+                int bth_m = (calendar.get(Calendar.MONTH)+1);
                 int bth_d = calendar.get(Calendar.DAY_OF_MONTH);
                 new Thread(new Runnable() {
                     @Override
